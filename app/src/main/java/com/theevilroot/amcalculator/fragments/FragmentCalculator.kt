@@ -45,7 +45,12 @@ class FragmentCalculator: Fragment(), View.OnClickListener {
                     output.append(button.text)
             }
             "C" -> {
-                output.setText("0")
+                with(output.text.dropLast(1)) {
+                    if(this.isEmpty())
+                        output.setText("0")
+                    else
+                        output.setText(this)
+                }
             }
             "=" -> {
                 subOutput.text = output.text.toString() + "="
@@ -83,7 +88,7 @@ class FragmentCalculator: Fragment(), View.OnClickListener {
     }
 
     private fun initView(view: View) {
-        with(view){
+        with(view) {
             output = findViewById(R.id.calc_output_view)
             subOutput = findViewById(R.id.sub_output_view)
             findButton(R.id.zero).setOnClickListener(this@FragmentCalculator)
@@ -104,6 +109,12 @@ class FragmentCalculator: Fragment(), View.OnClickListener {
             findButton(R.id.subtract).setOnClickListener(this@FragmentCalculator)
             findButton(R.id.plus).setOnClickListener(this@FragmentCalculator)
             findButton(R.id.equals).setOnClickListener(this@FragmentCalculator)
+            findButton(R.id.dot).setOnClickListener(this@FragmentCalculator)
+
+            findButton(R.id.c).setOnLongClickListener {
+                output.setText("0")
+                true
+            }
         }
     }
 
